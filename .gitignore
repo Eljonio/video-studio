@@ -1,0 +1,28 @@
+node_modules/
+
+# local config
+.env
+.env.*
+!.env.example
+
+# runtime data: projects, runs, uploads, library (seed it from examples/demo-data)
+data/
+
+# generated or uploaded media anywhere in the tree
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.ogg
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.heic
+*.tmp
+
+.DS_Store

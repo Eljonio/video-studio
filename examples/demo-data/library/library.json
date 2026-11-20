@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "id": "lib-rosa",
+      "name": "Rosa",
+      "traits": "late thirties, short dark curly hair, tired eyes, a small scar on the chin, ordinary build",
+      "wardrobe": "faded green work apron over a grey long-sleeve tee",
+      "refs": [],
+      "updated_at": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "locations": [
+    {
+      "id": "lib-laundromat",
+      "name": "Laundromat",
+      "description": "small neighbourhood laundromat at night: two rows of white dryers, tiled floor, plastic chairs, a folding table, a notice board with blank papers",
+      "light": "cold fluorescent tubes; dark street behind the glass door",
+      "refs": [],
+      "updated_at": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "props": [],
+  "styles": [],
+  "updated_at": "2026-01-01T00:00:00.000Z"
+}

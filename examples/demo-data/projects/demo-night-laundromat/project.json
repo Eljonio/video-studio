@@ -1,0 +1,181 @@
+{
+  "id": "demo-night-laundromat",
+  "title": "Demo — Night laundromat (phone realism)",
+  "created_at": "2026-01-01T00:00:00.000Z",
+  "updated_at": "2026-01-01T00:00:00.000Z",
+  "format": {
+    "aspect": "9:16",
+    "resolution": "1080p"
+  },
+  "device": "phone",
+  "prompt_format": "prose",
+  "summary": {
+    "who_and_where": "Rosa, a laundromat attendant in her late thirties, is closing a small neighbourhood laundromat late at night.",
+    "what_happens": "She checks the last running dryer, finds a forgotten red scarf inside and decides to wait for its owner instead of locking up.",
+    "tone": "quiet, tired, a little warm",
+    "what_we_read": "She is exhausted but will not leave someone else's things behind.",
+    "what_we_do_not_show": "the owner of the scarf",
+    "purpose": "Demo project: shows the schema -> prompt pipeline. All people and places are fictional."
+  },
+  "style": {
+    "preset": "phone_realism",
+    "style": {
+      "style": "Ordinary smartphone video, vertical or horizontal as specified. Looks like real footage a friend shot, not an ad. NOT cinematic, NOT 3D render, NOT stock footage.",
+      "operating_style": "Handheld by an untrained friend: micro-jitter, one brief autofocus hunt, mild exposure pumping, slight rolling-shutter wobble, headroom not quite right, off-centre framing.",
+      "lighting": "Whatever light the place has: uneven, unflattering, mixed colour temperature (window daylight + warm ceiling LED). No beauty light, no studio light.",
+      "color_accent_doctrine": "Phone colour science: slightly oversharpened, compressed highlights, crushed blacks, fine sensor noise in shadows.",
+      "texture": "Real worn objects, fingerprints on glass, scuffed surfaces, cables, clutter allowed.",
+      "camera_lens": "Phone main lens ~26mm equivalent, deep depth of field, no shallow cinematic bokeh.",
+      "skin": "Ordinary working person, NOT a model, NOT a beauty influencer: pores, vellus hair, under-eye shadows, uneven tone, a small blemish, forehead shine, asymmetric face. No makeup-ad look.",
+      "acting": "Nothing performed. One or two micro-actions per shot (glance up, blink, exhale, shift weight). No acting toward the lens.",
+      "physics": "Real weight and inertia; hands actually grip objects; fabric responds.",
+      "composition": "Casual, slightly wrong: subject off-centre, background clutter visible.",
+      "continuity": "Same person, same clothes, same room across all shots.",
+      "technical": "Real-time 30 fps look, no slow motion, no morphing, no warping.",
+      "audio": "Phone microphone: room reverb, distant traffic, handling noise, gain rises when the room goes quiet. No music, no narration, no subtitles."
+    },
+    "negative_extra": [
+      "no cinematic look, no shallow cinematic bokeh, no glamour lighting, no makeup ad look, no model face"
+    ]
+  },
+  "assets": {
+    "characters": [
+      {
+        "id": "c-rosa",
+        "name": "Rosa",
+        "traits": "late thirties, short dark curly hair, tired eyes, a small scar on the chin, ordinary build",
+        "wardrobe": "faded green work apron over a grey long-sleeve tee",
+        "refs": [],
+        "library_id": "lib-rosa"
+      }
+    ],
+    "locations": [
+      {
+        "id": "l-laundromat",
+        "name": "Laundromat",
+        "description": "small neighbourhood laundromat at night: two rows of white dryers, tiled floor, plastic chairs, a folding table, a notice board with blank papers",
+        "light": "cold fluorescent tubes; dark street behind the glass door",
+        "refs": [],
+        "library_id": "lib-laundromat"
+      }
+    ],
+    "props": [
+      {
+        "id": "p-scarf",
+        "name": "Scarf",
+        "description": "a long knitted red wool scarf with frayed ends",
+        "refs": []
+      }
+    ]
+  },
+  "shots": [
+    {
+      "id": "s1",
+      "title": "Last dryer",
+      "duration": 5,
+      "type": "WAIST-UP, handheld phone, slight drift",
+      "scene_context": "closing time, the room is empty",
+      "characters": [
+        "c-rosa"
+      ],
+      "location": "l-laundromat",
+      "props": [],
+      "first_frame": "Rosa at 40%x/55%y in front of a row of dryers, only the third one still spinning; the street door at the right edge, dark outside",
+      "camera": "handheld by a coworker, small breathing jitter, no push-in",
+      "beats": [
+        {
+          "from": 0,
+          "to": 2,
+          "action": "Rosa walks to the spinning dryer and leans in to read its timer"
+        },
+        {
+          "from": 2,
+          "to": 5,
+          "action": "the drum stops; she opens the door and pulls out a red scarf"
+        }
+      ],
+      "acting": [
+        {
+          "character": "c-rosa",
+          "behaviour": "rubs her left eye with the back of her wrist, one slow exhale through the nose"
+        }
+      ],
+      "physics": "warm air puffs out of the dryer; the scarf is heavy and slightly damp at one end",
+      "lighting": "cold fluorescent tubes overhead, one tube flickers faintly",
+      "audio": {
+        "dialogue": [],
+        "sfx": "dryer drum slowing to a stop, metal door latch",
+        "room_tone": "fluorescent hum, distant traffic"
+      },
+      "what_we_read": "she is too tired to care, until she sees the scarf",
+      "purpose": "set up the place and the found object",
+      "locks": [
+        "the scarf is red in every frame",
+        "only one dryer is spinning"
+      ],
+      "negative_extra": "no customers in the background",
+      "clutter": "a lost sock on the folding table, a crumpled receipt on the floor",
+      "start_image": null,
+      "end_image": null,
+      "video_refs": []
+    },
+    {
+      "id": "s2",
+      "title": "Decision",
+      "duration": 4,
+      "type": "CLOSE-UP, handheld phone",
+      "scene_context": "",
+      "characters": [
+        "c-rosa"
+      ],
+      "location": "l-laundromat",
+      "props": [
+        "p-scarf"
+      ],
+      "first_frame": "Rosa at 50%x/45%y holding the folded scarf against her chest; the street door behind her, half out of frame",
+      "camera": "handheld, the operator takes half a step back at 2s",
+      "beats": [
+        {
+          "from": 0,
+          "to": 2,
+          "action": "she looks at the door, then up at a wall clock off-screen"
+        },
+        {
+          "from": 2,
+          "to": 4,
+          "action": "she hooks a plastic chair with her foot, pulls it out and sits down"
+        }
+      ],
+      "acting": [
+        {
+          "character": "c-rosa",
+          "behaviour": "a small resigned half-smile, shoulders drop"
+        }
+      ],
+      "physics": "the chair legs catch on a tile seam",
+      "lighting": "same fluorescent light as shot 1",
+      "audio": {
+        "dialogue": [
+          {
+            "character": "c-rosa",
+            "line": "Okay. Ten more minutes.",
+            "delivery": "quiet, to herself"
+          }
+        ],
+        "sfx": "plastic chair legs scraping on tile",
+        "room_tone": "fluorescent hum"
+      },
+      "what_we_read": "she decided to stay",
+      "purpose": "the turn",
+      "locks": [
+        "same apron and scarf as shot 1"
+      ],
+      "negative_extra": "",
+      "clutter": "",
+      "start_image": null,
+      "end_image": null,
+      "video_refs": []
+    }
+  ],
+  "media_library": []
+}

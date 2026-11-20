@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Studio</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z M9 9l6 3-6 3z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Video Studio</span></div>
+  <div class="top-mid">
+    <select id="projectSelect" title="Проект"></select>
+    <button id="btnNewProject" class="btn">+ Проект</button>
+    <button id="btnClone" class="btn ghost" title="Копия проекта">Копия</button>
+    <button id="btnDelete" class="btn ghost danger" title="Удалить проект">Удалить</button>
+    <span class="view-switch"><button id="viewForms" class="btn on">Формы</button><button id="viewFlow" class="btn">Схема</button><button id="viewGallery" class="btn">Видео<span id="galBadge" class="badge" hidden></span></button></span>
+  </div>
+  <div class="top-right"><span id="account" class="muted">…</span><span id="saveState" class="muted"></span></div>
+</header>
+
+<main class="layout" id="app" hidden>
+  <nav class="side">
+    <section class="block">
+      <h3>Проект</h3>
+      <label>Название<input id="pTitle"></label>
+      <div class="row2">
+        <label>Аспект<select id="pAspect"><option>16:9</option><option>9:16</option><option>1:1</option><option>4:3</option><option>3:4</option><option>21:9</option></select></label>
+        <label>Стиль<select id="pPreset"></select></label>
+      </div>
+      <div class="row2">
+        <label>Камера-устройство<select id="pDevice"></select></label>
+        <label>Формат промпта<select id="pFormat"><option value="prose">Проза (устройство первым)</option><option value="json">JSON DIRECTOR SPEC (старый)</option></select></label>
+      </div>
+      <span class="hint">Реализм даёт устройство и его дефекты, не резкость. «Кино» — только когда нужен именно кино-глянец.</span>
+      <details><summary>Сцена целиком (scene_summary)</summary>
+        <label>Кто и где<textarea id="sWho" rows="2"></textarea></label>
+        <label>Что происходит<textarea id="sWhat" rows="2"></textarea></label>
+        <label>Тон<input id="sTone"></label>
+        <label>Что зритель читает по лицам<textarea id="sRead" rows="2"></textarea></label>
+        <label>Чего НЕ показываем<input id="sNot"></label>
+        <label>Зачем ролик<input id="sPurpose"></label>
+      </details>
+      <details><summary>Глобальный вид (style_prefix)</summary><div id="styleFields"></div>
+        <label>Доп. запреты (по строке)<textarea id="negExtra" rows="3"></textarea></label>
+      </details>
+    </section>
+
+    <section class="block">
+      <h3>База (общая для всех проектов) <button class="mini" id="btnLibReload" title="обновить">↻</button></h3>
+      <div id="library" class="library"></div>
+    </section>
+
+    <section class="block">
+      <h3>Персонажи <button class="mini" data-add="characters">+</button></h3>
+      <div id="charList" class="asset-list"></div>
+    </section>
+    <section class="block">
+      <h3>Локации <button class="mini" data-add="locations">+</button></h3>
+      <div id="locList" class="asset-list"></div>
+    </section>
+    <section class="block">
+      <h3>Реквизит <button class="mini" data-add="props">+</button></h3>
+      <div id="propList" class="asset-list"></div>
+    </section>
+  </nav>
+
+  <section class="center">
+    <div class="shots-bar">
+      <h3>Планы (shots)</h3>
+      <div id="shotTabs" class="tabs"></div>
+      <button id="btnAddShot" class="btn">+ План</button>
+    </div>
+    <div id="shotEditor" class="shot-editor"></div>
+    <div id="gallery" class="gallery-wrap" hidden>
+      <div class="gal-bar">
+        <span class="view-switch small"><button id="galModeVideo" class="btn on">Видео</button><button id="galModeFrames" class="btn">Раскадровка</button></span>
+        <label class="inline"><input type="checkbox" id="galAll"> все проекты</label>
+        <label class="inline"><input type="checkbox" id="galPicked"> только выбранные</label>
+        <label class="inline"><input type="checkbox" id="galAuto" checked> автообновление</label>
+        <span id="galCount" class="hint"></span>
+        <span class="grow"></span>
+        <button id="galPlayAll" class="mini">▶ запустить все</button>
+        <button id="galReload" class="mini">↻</button>
+      </div>
+      <div id="galGrid" class="gal-grid"></div>
+    </div>
+
+    <div id="flow" class="flow" hidden>
+      <div class="flow-toolbar">
+        <span class="hint">Перетаскивай узлы. Тяни из порта персонажа/локации/предмета на план, чтобы добавить в кадр. Клик по плану открывает его форму.</span>
+        <button class="mini" id="flowAddShot">+ План</button>
+        <button class="mini" id="flowAuto">Авто-раскладка</button>
+      </div>
+      <div class="flow-body">
+        <div class="flow-canvas" id="flowCanvas"><svg class="flow-edges" id="flowEdges"></svg><div class="flow-nodes" id="flowNodes"></div></div>
+        <aside class="flow-inspector" id="flowInspector"><div class="hint">Кликни по узлу — здесь откроется его карточка для правки.</div></aside>
+      </div>
+    </div>
+  </section>
+
+  <aside class="right">
+    <section class="block">
+      <h3>Генерация</h3>
+      <label>Какие планы<select id="genScope"><option value="all">Все планы одним клипом (мультишот)</option><option value="current">Только текущий план</option></select></label>
+      <label>Модель<select id="genModel"></select></label>
+      <div id="genParams" class="params"></div>
+      <div class="row2">
+        <label>Вариантов (N)<input id="genN" type="number" min="1" max="8" value="3"></label>
+        <label>Метка<input id="genLabel" placeholder="hook v2"></label>
+      </div>
+      <div class="actions">
+        <button id="btnCompile" class="btn ghost">Собрать промпт</button>
+        <button id="btnEstimate" class="btn ghost">Цена</button>
+        <button id="btnGenerate" class="btn primary">Генерить</button>
+      </div>
+      <div id="estimate" class="estimate"></div>
+      <div id="warnings" class="warnings"></div>
+      <details><summary>Промпт (что уйдёт модели)</summary><textarea id="promptPreview" rows="18" spellcheck="false"></textarea>
+        <label class="inline"><input type="checkbox" id="promptOverride"> отправить этот текст как есть (ручная правка)</label>
+      </details>
+    </section>
+    <section class="block">
+      <h3>Прогоны</h3>
+      <div id="runs" class="runs"></div>
+    </section>
+  </aside>
+</main>
+
+<div id="empty" class="empty">Создай проект или выбери существующий.</div>
+
+<div id="lightbox" class="lightbox" hidden><div class="lb-inner"><button class="lb-close" id="lbClose">×</button><div id="lbBody"></div></div></div>
+
+<template id="tplAsset">
+  <div class="asset">
+    <div class="asset-head"><input class="a-name" placeholder="Имя (латиницей, без пробелов: Rosa)"><button class="mini a-lib" title="Сохранить в общую базу">в базу</button><button class="mini danger a-del" title="Удалить">×</button></div>
+    <textarea class="a-traits" rows="2" placeholder="Постоянные признаки: возраст, лицо, волосы, шрам…"></textarea>
+    <textarea class="a-wardrobe" rows="2" placeholder="Одежда (одинаковая во всех планах)"></textarea>
+    <textarea class="a-desc" rows="2" placeholder="Описание"></textarea>
+    <input class="a-light" placeholder="Свет в локации">
+    <div class="refs"></div>
+    <label class="upl">+ референс-фото<input type="file" class="a-file" accept="image/*,video/*" multiple hidden></label>
+  </div>
+</template>
+
+<script src="/app.js"></script>
+<script src="/flow.js"></script>
+<script src="/gallery.js"></script>
+</body>
+</html>
